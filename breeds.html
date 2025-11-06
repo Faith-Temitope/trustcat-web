@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Breeds — TrustCat</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div data-include="header"></div>
+
+  <main class="container">
+    <h2>Cat Breeds Guide</h2>
+    <p class="small">Explore and compare different cat breeds. Save your favorites and learn about their characteristics.</p>
+
+    <!-- Page Navigation -->
+    <nav class="page-nav">
+      <a href="gallery.html" class="btn btn-outline btn-prev">Gallery</a>
+      <div class="nav-group">
+        <a href="index.html" class="btn btn-outline">Home</a>
+        <a href="facts.html" class="btn btn-outline">Facts</a>
+        <a href="gallery.html" class="btn btn-outline">Gallery</a>
+      </div>
+      <a href="trivia.html" class="btn btn-primary btn-next">Quiz</a>
+    </nav>
+
+    <!-- Enhanced Breed Controls -->
+    <div class="breed-controls">
+      <div class="control-row">
+        <div class="search-group">
+          <input id="breeds-search" type="text" placeholder="Search breeds by name, origin, or traits..." />
+          <button id="breeds-refresh" class="btn btn-primary">Refresh List</button>
+        </div>
+      </div>
+      <div class="control-row">
+        <div class="filter-group">
+          <label>Origin:</label>
+          <select id="origin-filter">
+            <option value="all">All Origins</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label>Size:</label>
+          <select id="size-filter">
+            <option value="all">All Sizes</option>
+            <option value="small">Small</option>
+            <option value="medium">Medium</option>
+            <option value="large">Large</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label>Temperament:</label>
+          <select id="temperament-filter">
+            <option value="all">All Types</option>
+          </select>
+        </div>
+        <button id="compare-mode" class="btn btn-outline">
+          <span class="icon">⚖️</span> Compare Mode
+        </button>
+      </div>
+      <div class="control-row">
+        <div class="view-options">
+          <button class="btn btn-outline active" data-view="grid">
+            <span class="icon">⊞</span> Grid
+          </button>
+          <button class="btn btn-outline" data-view="list">
+            <span class="icon">☰</span> List
+          </button>
+          <button class="btn btn-outline" data-view="cards">
+            <span class="icon">▤</span> Cards
+          </button>
+        </div>
+        <div class="show-count">
+          <span class="small">Show:</span>
+          <button class="btn btn-outline" data-count="8">8</button>
+          <button class="btn btn-outline" data-count="16">16</button>
+          <button class="btn btn-outline active" data-count="all">All</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Content Area -->
+    <div class="breeds-content">
+      <!-- List View -->
+      <section id="breeds-list" class="breeds-grid">
+        <!-- Breeds rendered by js/app.js -->
+      </section>
+
+      <!-- Comparison View -->
+      <section id="breeds-comparison" class="breeds-comparison" style="display: none;">
+        <div class="comparison-slots">
+          <div class="slot">
+            <div class="placeholder">
+              <p>Select a breed to compare</p>
+              <button class="btn btn-outline">Choose Breed</button>
+            </div>
+          </div>
+          <div class="comparison-vs">VS</div>
+          <div class="slot">
+            <div class="placeholder">
+              <p>Select a breed to compare</p>
+              <button class="btn btn-outline">Choose Breed</button>
+            </div>
+          </div>
+        </div>
+        <div class="comparison-details"></div>
+      </section>
+
+      <!-- Detailed View -->
+      <section id="breed-detail" class="breed-detail">
+        <!-- Selected breed details -->
+        <div class="detail-header">
+          <h3>Select a breed to see details</h3>
+        </div>
+        <div class="detail-content">
+          <!-- Content populated by JS -->
+        </div>
+      </section>
+    </div>
+
+    <!-- Breed Selection Modal -->
+    <div id="breed-select-modal" class="modal" style="display: none;">
+      <div class="modal-content">
+        <h3>Select Breed</h3>
+        <input type="text" class="breed-search" placeholder="Type to filter breeds...">
+        <div class="breed-list">
+          <!-- Populated by JS -->
+        </div>
+        <div class="modal-actions">
+          <button class="btn btn-outline" onclick="closeModal()">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Stats Dialog -->
+  <div id="stats-dialog" class="stats-dialog" style="display: none;">
+    <h3>Breed Statistics</h3>
+    <div class="stats-content"></div>
+    <button class="btn btn-outline" onclick="this.closest('.stats-dialog').style.display='none'">Close</button>
+  </div>
+
+  <!-- Backdrop -->
+  <div class="modal-backdrop" style="display: none;"></div>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; 2025 TrustCat — Demo Presentation</p>
+    </div>
+  </footer>
+
+  <script src="js/data.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/breed-enhancer.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      // Initialize breed features
+      window.BreedEnhancer.init();
+      
+      try {
+        // Fetch breeds data
+        const response = await fetch('https://api.thecatapi.com/v1/breeds');
+        if (!response.ok) throw new Error('Failed to fetch breeds');
+        
+        const breeds = await response.json();
+        window.BreedEnhancer.initBreeds(breeds);
+      } catch (error) {
+        console.error('Error loading breeds:', error);
+        document.getElementById('breeds-list').innerHTML = 
+          '<p class="error">Failed to load breeds. Please try again later.</p>';
+      }
+    });
+  </script>
+</body>
+</html>

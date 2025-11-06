@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Gallery — TrustCat</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <div data-include="header"></div>
+
+    <main class="container">
+      <h2>Cat Gallery</h2>
+      <p class="small">
+        Browse beautiful cat photos. Use filters to find exactly what you're
+        looking for!
+      </p>
+
+      <!-- Page Navigation -->
+      <nav class="page-nav">
+        <a href="facts.html" class="btn btn-outline btn-prev">Facts</a>
+        <div class="nav-group">
+          <a href="index.html" class="btn btn-outline">Home</a>
+          <a href="facts.html" class="btn btn-outline">Facts</a>
+          <a href="trivia.html" class="btn btn-outline">Quiz</a>
+        </div>
+        <a href="breeds.html" class="btn btn-primary btn-next">Breeds</a>
+      </nav>
+
+      <!-- Enhanced Gallery Controls -->
+      <div class="gallery-controls">
+        <div class="control-row">
+          <div class="filter-group">
+            <label>Size:</label>
+            <select id="size-filter">
+              <option value="all">All Sizes</option>
+              <option value="small">Small</option>
+              <option value="medium">Medium</option>
+              <option value="large">Large</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <label>Type:</label>
+            <select id="type-filter">
+              <option value="all">All Types</option>
+              <option value="static">Static</option>
+              <option value="animated">Animated</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <label>Category:</label>
+            <select id="category-filter">
+              <option value="all">All Categories</option>
+              <option value="kittens">Kittens</option>
+              <option value="sleeping">Sleeping</option>
+              <option value="playing">Playing</option>
+              <option value="funny">Funny</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <button id="gallery-slideshow" class="btn btn-outline">
+              Start Slideshow
+            </button>
+          </div>
+        </div>
+        <div class="control-row">
+          <div class="search-group">
+            <input
+              id="gallery-search"
+              type="text"
+              placeholder="Search by breed, tag, or description..."
+            />
+            <button id="gallery-refresh" class="btn btn-primary">
+              Refresh
+            </button>
+            <button id="gallery-loadmore" class="btn btn-outline">
+              Load More
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Gallery Grid -->
+      <section id="image-grid" class="image-grid">
+        <!-- Images rendered by js/app.js -->
+      </section>
+
+      <!-- Lightbox View -->
+      <div id="lightbox" class="lightbox" style="display: none">
+        <div class="lightbox-content">
+          <button class="btn-close">&times;</button>
+          <button class="btn-prev">‹</button>
+          <button class="btn-next">›</button>
+          <div class="image-container">
+            <img src="" alt="Cat image" />
+          </div>
+          <div class="lightbox-info">
+            <div class="info-text">
+              <h3>Image Details</h3>
+              <p class="breed"></p>
+              <p class="dimensions"></p>
+            </div>
+            <div class="action-buttons">
+              <button class="btn btn-outline btn-favorite">
+                <span class="icon">❤️</span> Favorite
+              </button>
+              <button class="btn btn-outline btn-download">
+                <span class="icon">⬇️</span> Download
+              </button>
+              <button class="btn btn-outline btn-open-tab">
+                <span class="icon">🔗</span> Open in Tab
+              </button>
+              <button class="btn btn-outline btn-share">
+                <span class="icon">📤</span> Share
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slideshow Controls -->
+      <div
+        id="slideshow-controls"
+        class="slideshow-controls"
+        style="display: none"
+      >
+        <button class="btn btn-outline btn-prev">Previous</button>
+        <button class="btn btn-primary btn-pause">Pause</button>
+        <button class="btn btn-outline btn-next">Next</button>
+        <button class="btn btn-outline btn-exit">Exit Slideshow</button>
+      </div>
+    </main>
+
+    <!-- Backdrop -->
+    <div class="modal-backdrop" style="display: none"></div>
+
+    <footer class="site-footer">
+      <div class="container">
+        <p>&copy; 2025 TrustCat — Demo Presentation</p>
+      </div>
+    </footer>
+
+  <script src="js/data.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/gallery-enhancer.js"></script>
+  <script src="js/app.js"></script>
+
+  <script>
+    // Initialize gallery features
+    document.addEventListener('DOMContentLoaded', () => {
+      if (window.GalleryEnhancer) {
+        window.GalleryEnhancer.init();
+      }
+    });
+  </script>
+</body>
+</html>

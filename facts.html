@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Facts — TrustCat</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <div data-include="header"></div>
+
+    <main class="container">
+      <h2>Cat Facts</h2>
+      <p class="small">
+        Discover interesting facts about cats. Save your favorites and share
+        them with friends.
+      </p>
+
+      <!-- Page Navigation -->
+      <nav class="page-nav">
+        <a href="index.html" class="btn btn-outline btn-prev">Home</a>
+        <div class="nav-group">
+          <a href="breeds.html" class="btn btn-outline">Cat Breeds</a>
+          <a href="gallery.html" class="btn btn-outline">Gallery</a>
+          <a href="trivia.html" class="btn btn-outline">Quiz</a>
+        </div>
+        <a href="gallery.html" class="btn btn-primary btn-next">Gallery</a>
+      </nav>
+
+      <!-- Enhanced controls will be injected here by JS -->
+      <div id="facts-controls-container"></div>
+
+      <section id="facts-list" class="cards-grid">
+        <!-- Facts rendered by js/app.js -->
+      </section>
+
+      <!-- Stats Dialog -->
+      <div id="stats-dialog" class="stats-dialog" style="display: none">
+        <h3>Facts Statistics</h3>
+        <div class="stats-content"></div>
+        <button
+          class="btn btn-outline"
+          onclick="this.closest('.stats-dialog').style.display='none'"
+        >
+          Close
+        </button>
+      </div>
+
+      <!-- Print Preview Dialog -->
+      <div id="print-dialog" class="stats-dialog" style="display: none">
+        <h3>Print Preview</h3>
+        <div class="print-content"></div>
+        <div style="margin-top: 1rem">
+          <button class="btn btn-primary" onclick="window.print()">
+            Print
+          </button>
+          <button
+            class="btn btn-outline"
+            onclick="this.closest('.stats-dialog').style.display='none'"
+          >
+            Close
+          </button>
+        </div>
+      </div>
+    </main>
+
+    <!-- Dialog Backdrop -->
+    <div class="modal-backdrop" style="display: none"></div>
+
+    <footer class="site-footer">
+      <div class="container">
+        <p>&copy; 2025 TrustCat — Demo Presentation</p>
+      </div>
+    </footer>
+
+    <script src="js/data.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/fact-enhancer.js"></script>
+    <script src="js/app.js"></script>
+
+    <script>
+      // Helper function to show dialogs
+      function showDialog(id) {
+        document.getElementById(id).style.display = "block";
+        document.querySelector(".modal-backdrop").style.display = "block";
+      }
+
+      // Close dialogs when clicking backdrop
+      document
+        .querySelector(".modal-backdrop")
+        ?.addEventListener("click", () => {
+          document
+            .querySelectorAll(".stats-dialog")
+            .forEach((d) => (d.style.display = "none"));
+          document.querySelector(".modal-backdrop").style.display = "none";
+        });
+
+      // Show stats dialog with data
+      function showStatsDialog(stats) {
+        const dialog = document.getElementById("stats-dialog");
+        const content = dialog.querySelector(".stats-content");
+
+        content.innerHTML = `
+        <div class="stats-grid">
+          <div class="stat-card">
+            <span class="stat-value">${stats.totalViewed}</span>
+            <span class="stat-label">Facts Viewed</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-value">${stats.totalShared}</span>
+            <span class="stat-label">Times Shared</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-value">${stats.totalPrinted}</span>
+            <span class="stat-label">Facts Printed</span>
+          </div>
+        </div>
+      `;
+
+        showDialog("stats-dialog");
+      }
+
+      // Update stats display in the page
+      function updateStatsDisplay(stats) {
+        const display = document.getElementById("facts-stats-display");
+        if (!display) return;
+
+        display.textContent = `${stats.totalViewed} viewed • ${stats.totalShared} shared`;
+      }
+    </script>
+  </body>
+</html>

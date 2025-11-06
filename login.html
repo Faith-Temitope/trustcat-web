@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Login — TrustCat</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div data-include="header"></div>
+
+  <main class="container auth-page">
+    <div class="card auth-card">
+      <h2>Login</h2>
+      <form id="login-form">
+        <label>Email
+          <input type="email" id="email" required placeholder="demo@trustcat.test" />
+        </label>
+        <label>Password
+          <input type="password" id="password" required placeholder="password" />
+        </label>
+        <div class="form-actions">
+          <button class="btn btn-primary" type="submit">Sign in</button>
+          <button class="btn btn-outline" id="demo-btn" type="button">Use Demo Account</button>
+        </div>
+      </form>
+      <p class="small">Demo account — email: <code>demo@trustcat.test</code> password: <code>password</code></p>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; 2025 TrustCat — Demo Presentation</p>
+    </div>
+  </footer>
+
+  <script src="js/auth.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
