@@ -22,13 +22,39 @@
   }
 
   // load modular includes (header/footer)
+  // When includes contain <script> tags the browser doesn't execute them when inserted
+  // via innerHTML. This helper inserts the include HTML and programmatically
+  // re-creates any scripts so they run (preserving order).
   async function loadIncludes(){
     const includes = document.querySelectorAll('[data-include]');
     await Promise.all(Array.from(includes).map(async el=>{
       const name = el.getAttribute('data-include');
       try{
         const res = await fetch(`includes/${name}.html`);
-        if(res.ok){ el.innerHTML = await res.text(); } else { console.warn('Include not found', name); }
+        if(res.ok){
+          const text = await res.text();
+          el.innerHTML = text;
+
+          // Execute any scripts that were part of the include.
+          // Create regular <script> elements and append to body to ensure execution.
+          const scripts = Array.from(el.querySelectorAll('script'));
+          for(const s of scripts){
+            try{
+              const ns = document.createElement('script');
+              if(s.src){
+                ns.src = s.src;
+                // keep execution order by disabling async
+                ns.async = false;
+              } else {
+                ns.textContent = s.textContent;
+              }
+              document.body.appendChild(ns);
+            }catch(e){ console.warn('Failed to execute include script', e); }
+            // remove original to avoid duplicate
+            s.remove();
+          }
+        } else { console.warn('Include not found', name); }
+
         // After loading includes, update nav state
         updateNav();
       }catch(err){ console.warn('Failed to load include', name, err); }
@@ -197,6 +223,7 @@
       })
     );
   }
+  
   // Image gallery management
   function renderImages() {
     const el = document.getElementById('image-grid');

@@ -1,16 +1,12 @@
-document.addEventListener('DOMContentLoaded', () => {
+function wireMobileMenu() {
     const menuBtn = document.querySelector('.mobile-menu-btn');
     const nav = document.querySelector('.main-nav');
-    
     if (menuBtn && nav) {
+        console.log('[mobile-menu] Hamburger menu JS loaded and attached.');
         menuBtn.addEventListener('click', () => {
             nav.classList.toggle('active');
-            
-            // Prevent scrolling when menu is open
             document.body.style.overflow = nav.classList.contains('active') ? 'hidden' : '';
         });
-
-        // Close menu when clicking outside
         document.addEventListener('click', (e) => {
             if (nav.classList.contains('active') && 
                 !nav.contains(e.target) && 
@@ -19,5 +15,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.body.style.overflow = '';
             }
         });
+    } else {
+        // Try again in 200ms if header not yet injected
+        setTimeout(wireMobileMenu, 200);
     }
-});
+}
+wireMobileMenu();
